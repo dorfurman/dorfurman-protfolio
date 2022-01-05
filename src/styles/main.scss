@@ -64,6 +64,7 @@ body {
   -ms-touch-action: manipulation;
   touch-action: manipulation;
   overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 ::-moz-selection {
@@ -103,10 +104,28 @@ p,
 span,
 h1,
 h2,
-h3,
-h4,
-h5 {
+h3 {
   cursor: default;
+}
+
+a,
+p,
+span {
+  font-family: sinkinRegular;
+}
+
+h1,
+h2,
+h3 {
+  font-family: leagueFont;
+}
+
+h1 {
+  font-size: 4em;
+}
+
+p {
+  color: $paraColor;
 }
 
 button {
@@ -123,6 +142,7 @@ nav {
     position: absolute;
     padding: 40px;
     z-index: 99;
+    font-size: 2em;
   }
 
   & ul {
@@ -200,7 +220,7 @@ nav {
     padding: 10px;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
-    box-shadow: 0px 0px 5px 0px rgb(165, 165, 165);
+    box-shadow: 0px 0px 15px 0px rgb(165, 165, 165);
     transition: background 0.3s ease;
     z-index: 999;
 
@@ -223,6 +243,7 @@ nav {
 
   & .containerInner {
     perspective: 1000px;
+    backface-visibility: hidden;
 
     #linesDiv {
       position: absolute;
@@ -262,7 +283,7 @@ nav {
     & .main {
       position: relative;
       width: 100%;
-      transform: rotateY(0deg);
+      transform: rotateY(0deg) translateZ(0);
       transition: transform 0.5s ease, filter 0.5s ease;
       transform-origin: right;
       overflow: hidden;
@@ -288,20 +309,22 @@ nav {
             grid-area: 1 / 1 / 2 / 2;
 
             & h1 {
-              font-size: 7vw;
               font-family: clipFont;
+              font-size: 7vw;
               background: linear-gradient(to right, $mainColor, $BlueColor);
               -webkit-background-clip: text;
               -webkit-text-fill-color: transparent;
+              transition: all 0.3s ease;
             }
 
             & h3 {
-              font-family: sinkinThin;
               font-size: 1.8vw;
+              transition: all 0.3s ease;
             }
 
             & #bottomTxt {
               max-width: 27.5vw;
+              transition: all 0.3s ease;
             }
 
             #hireMe {
@@ -344,16 +367,25 @@ nav {
               align-items: center;
               justify-content: center;
 
-              & #profile-image {
-                position: absolute;
-                width: 25vw;
-                border-radius: 50%;
-                z-index: 1;
-              }
+              & .card {
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.35s ease;
+                height: 30vw;
+                width: 30vw;
 
-              #profile-shape {
-                position: absolute;
-                width: 40vw;
+                & #profile-image {
+                  position: absolute;
+                  height: 100%;
+                  filter: drop-shadow(5px 5px 5px #000);
+                  transition: all 0.3s ease;
+
+                  &:hover {
+                    filter: drop-shadow(5px 5px 5px $mainColor);
+                  }
+                }
               }
             }
           }
@@ -363,7 +395,7 @@ nav {
       & .about {
         position: relative;
         width: 100%;
-        height: 100vh;
+        height: max-content;
         background-color: $bgColor;
 
         & #aboutTopGrid {
@@ -376,7 +408,7 @@ nav {
 
           & #linesDiv {
             transform: rotate(15deg) scale(1.1) translateY(50%);
-            top: 20%;
+            top: 40%;
             & #waveShape {
               position: relative;
               filter: drop-shadow(0 0px 20px $cyanColor);
@@ -388,9 +420,10 @@ nav {
             grid-area: 1 / 1 / 2 / 2;
             background-color: transparent;
             border-radius: 10px;
-            transform: rotateY(20deg) translate(5%, 5%);
+            transform: rotateY(20deg) translate(10%, 10%) translateZ(0);
             transform-origin: left;
-            transition: all 0.3s ease;
+            transition: all 0.05s ease;
+            backface-visibility: hidden;
 
             & #skillsGrid {
               display: grid;
@@ -573,7 +606,6 @@ nav {
               font-size: 1vw;
               color: $paraColor;
               transition: color 0.3s ease;
-              font-family: sinkinLight;
             }
 
             & span {
@@ -582,11 +614,260 @@ nav {
             }
           }
         }
+        .qualitiesContainer {
+          position: relative;
+          padding-top: 200px;
+          width: 100%;
+          height: max-content;
+          transition: all 0.5s ease;
+
+          & h1 {
+            width: 100%;
+            text-align: center;
+            padding-bottom: 50px;
+            font-size: 3vw;
+          }
+          & #qualitiesGrid {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: center;
+            align-items: center;
+            align-content: stretch;
+            perspective: 1500px;
+
+            & .item {
+              background-color: rgba(0, 0, 0, 0.5);
+              border-top: 6px solid $mainColor;
+              border-radius: 10px;
+              padding: 20px;
+              width: 12.5vw;
+              min-width: 300px;
+              height: 30vh;
+              min-height: 350px;
+              margin: 5px 20px;
+              transition: all 0.35s ease;
+              cursor: pointer;
+
+              &:hover {
+                background-color: $mainColor;
+                transform: translateY(-20px);
+                box-shadow: 0 9px 0 0 rgba(255, 255, 255, 0.75),
+                  0px 18px 0 0 rgba(255, 255, 255, 0.5);
+              }
+
+              & .itemInner {
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+                width: 100%;
+
+                & img {
+                  height: 20vh;
+                  max-height: 185px;
+                }
+
+                & h3 {
+                  padding-top: 10px;
+                  cursor: pointer;
+                }
+
+                & p {
+                  font-family: sinkinRegular;
+                  font-size: 12px;
+                  cursor: pointer;
+                }
+              }
+            }
+          }
+        }
       }
 
       & .projects {
         width: 100%;
-        height: 20vh;
+        height: max-content;
+        perspective: 1500px;
+        padding-top: 100px;
+        transform: translateY(200px);
+        transition: all 0.5s ease;
+
+        & .projectsGrid {
+          display: grid;
+          grid-template-columns: 1fr;
+          grid-template-rows: 0.3fr repeat(3, 1fr);
+          grid-row-gap: 10px;
+          overflow-y: scroll;
+          max-height: 70vh;
+          scroll-behavior: smooth;
+          transform: rotateX(5deg) scale(1) translateY(100px);
+          opacity: 0.25;
+          transition: all 0.5s ease;
+
+          & .projectsHeader {
+            padding: 0 40px;
+          }
+
+          & .projectItem {
+            border-radius: 5px;
+            background-color: $bgColor;
+            transition: all 0.3s ease;
+
+            &:hover {
+              background: $mainColor;
+            }
+          }
+
+          & .bouquetGrid {
+            display: grid;
+            grid-template-columns: 1fr 0.35fr;
+            grid-template-rows: repeat(4, 1fr);
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            padding: 0 40px;
+
+            & .bouquetItem {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              position: relative;
+              width: 100%;
+              height: auto;
+              padding: 20px;
+
+              &:nth-child(1) {
+                grid-area: 1 / 1 / 5 / 2;
+
+                & img {
+                  width: 100%;
+                  height: auto;
+                }
+
+                &::before {
+                  content: "";
+                  position: absolute;
+                  width: 100%;
+                  height: 100%;
+                  background-color: rgba(0, 0, 0, 0.15);
+                }
+              }
+              &:nth-child(2) {
+                grid-area: 1 / 2 / 3 / 3;
+
+                & img {
+                  width: 100%;
+                  height: auto;
+                }
+              }
+              &:nth-child(3) {
+                grid-area: 3 / 2 / 5 / 3;
+                background: linear-gradient(60deg, $mainColor, $BlueColor);
+              }
+            }
+          }
+
+          & .yarinGrid {
+            display: grid;
+            grid-template-columns: 0.35fr 0.75fr;
+            grid-template-rows: repeat(4, 1fr);
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            padding: 0 40px;
+
+            & .yarinItem {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              position: relative;
+              width: 100%;
+              height: auto;
+              padding: 20px;
+
+              &:nth-child(1) {
+                grid-area: 1 / 2 / 5 / 3;
+
+                & img {
+                  width: 100%;
+                  height: auto;
+                }
+
+                &::before {
+                  content: "";
+                  position: absolute;
+                  width: 100%;
+                  height: 100%;
+                  background-color: rgba(0, 0, 0, 0.15);
+                }
+              }
+
+              &:nth-child(2) {
+                grid-area: 1 / 1 / 3 / 2;
+
+                & img {
+                  width: 100%;
+                  height: auto;
+                }
+              }
+
+              &:nth-child(3) {
+                grid-area: 3 / 1 / 5 / 2;
+                background: linear-gradient(60deg, $mainColor, $BlueColor);
+              }
+            }
+          }
+
+          & .nitaiGrid {
+            display: grid;
+            grid-template-columns: 0.75fr 0.35fr;
+            grid-template-rows: repeat(4, 1fr);
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            padding: 0 40px;
+
+            & .nitaiItem {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              position: relative;
+              width: 100%;
+              height: auto;
+              padding: 20px;
+
+              &:nth-child(1) {
+                grid-area: 1 / 1 / 5 / 2;
+
+                & img {
+                  width: 100%;
+                  height: auto;
+                }
+
+                &::before {
+                  content: "";
+                  position: absolute;
+                  width: 100%;
+                  height: 100%;
+                  background-color: rgba(0, 0, 0, 0.15);
+                }
+              }
+              &:nth-child(2) {
+                grid-area: 1 / 2 / 3 / 3;
+
+                & img {
+                  width: 100%;
+                  height: auto;
+                }
+              }
+              &:nth-child(3) {
+                grid-area: 3 / 2 / 5 / 3;
+                background: linear-gradient(60deg, $mainColor, $BlueColor);
+              }
+            }
+          }
+        }
+      }
+
+      & .contact {
+        position: relative;
+        height: 50vh;
       }
     }
   }
@@ -618,6 +899,11 @@ nav {
   background-color: $mainColor;
   box-shadow: 0px 0px 20px 0 $mainColor;
   animation: fadeIn 0.5s ease;
+  animation-fill-mode: forwards;
+}
+
+.projectsAnim {
+  animation: projectsAnim 0.5s ease;
   animation-fill-mode: forwards;
 }
 
@@ -719,6 +1005,17 @@ nav {
     opacity: 0;
   }
   to {
+    opacity: 1;
+  }
+}
+
+@keyframes projectsAnim {
+  from {
+    transform: rotateX(5deg) scale(1) translateY(100px);
+    opacity: 0.25;
+  }
+  to {
+    transform: rotateX(25deg) scale(0.9) translateY(0);
     opacity: 1;
   }
 }

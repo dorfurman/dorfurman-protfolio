@@ -1,7 +1,18 @@
 import React, { useEffect } from "react";
 import "./styles/main.css";
-import ProfilePicture from "./media/round-profile.png";
-import ProfileShape from "./media/blob.svg";
+// Images
+import ProfilePicture from "./media/profileNew.png";
+import SelfLearnerImg from "./media/qualities/selflearner.svg";
+import TeamworkImg from "./media/qualities/teamwork.svg";
+import PassionImg from "./media/qualities/passion.svg";
+import NewTechnologyImg from "./media/qualities/newtechnology.svg";
+import BouquetBG from "./media/protfolio/Bouquet/bouquet-bg.PNG";
+import BouquetLogo from "./media/protfolio/Bouquet/bouquet-logo.png";
+import YarinBG from "./media/protfolio/Yarin-Drory/Yarin-bg.PNG";
+import YarinLogo from "./media/protfolio/Yarin-Drory/Yarin-logo.webp";
+import NitaiBG from "./media/protfolio/Nitai-Daniel/NitaiBG.PNG";
+import NitaiLogo from "./media/protfolio/Nitai-Daniel/NitaiLogo.png";
+//
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAt } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -50,12 +61,44 @@ function App() {
     skillAnimation();
 
     skillsContainer.onmousemove = function (e) {
-      var x = (e.pageX - this.offsetLeft) / 100;
-      var y = (e.pageY - this.offsetTop) / 100;
-      if (x > 6) x = 6;
-      if (y > 16) y = 16;
-      skillsContainer.style.transform = `rotateY(20deg) translate(${x}%, ${y}%)`;
+      let x = (e.pageX - this.offsetLeft) / 100;
+      let y = (e.pageY - this.offsetTop) / 100;
+      skillsContainer.style.transform = `translateZ(0) rotateY(20deg) translate(${x}%, ${y}%)`;
     };
+
+    const qualitiesGrid = document.querySelector("#qualitiesGrid");
+    const qualitiesContainer = document.querySelector(".qualitiesContainer");
+    const qualitiesItem = document.querySelectorAll(".item");
+
+    const qualitiesObserver = new IntersectionObserver((entries) => {
+      if (entries[0].intersectionRatio <= 0) {
+        return (qualitiesContainer.style.transform = "translateY(200px)");
+      }
+
+      setTimeout(() => {
+        qualitiesItem.forEach((item) => {
+          qualitiesContainer.style.transform = "translateY(0)";
+        });
+      });
+    });
+
+    const projectsGrid = document.querySelector(".projectsGrid");
+    const projects = document.querySelector(".projects");
+
+    const projectsObserver = new IntersectionObserver((entries) => {
+      if (entries[0].intersectionRatio <= 0) {
+        projectsGrid.classList.remove("projectsAnim");
+        projects.style.transform = "translateY(200px)";
+        return;
+      }
+
+      setTimeout(() => {
+        projectsGrid.classList.add("projectsAnim");
+        projects.style.transform = "translateY(0)";
+      }, 250);
+    });
+    projectsObserver.observe(projectsGrid);
+    qualitiesObserver.observe(qualitiesGrid);
   };
 
   return (
@@ -104,16 +147,13 @@ function App() {
               </div>
               <div className="grid-item-2">
                 <div id="profileImgDiv">
-                  <img
-                    src={ProfilePicture}
-                    alt="Profile Image"
-                    id="profile-image"
-                  />
-                  <img
-                    src={ProfileShape}
-                    alt="Profile Shape"
-                    id="profile-shape"
-                  />
+                  <div className="card">
+                    <img
+                      src={ProfilePicture}
+                      alt="Profile Image"
+                      id="profile-image"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -182,8 +222,97 @@ function App() {
                 </p>
               </div>
             </div>
+            <div className="qualitiesContainer">
+              <h1>Qualities</h1>
+              <div id="qualitiesGrid">
+                <div className="item">
+                  {" "}
+                  {/* New Technologies */}
+                  <div className="itemInner">
+                    <img src={NewTechnologyImg} alt="New Technologies Svg" />
+                    <h3>Always learning new technologies</h3>
+                    <p>
+                      Love to learn new innovative technologies that improve the
+                      world of tech.
+                    </p>
+                  </div>
+                </div>
+                <div className="item">
+                  <div className="itemInner">
+                    <img src={PassionImg} alt="Passion Svg" />
+                    <h3>Passion for code</h3>
+                    <p>
+                      Ever since I remember myself i always loved the idea of
+                      creating with code and the magic outcome the code has.
+                    </p>
+                  </div>
+                </div>
+                <div className="item">
+                  <div className="itemInner">
+                    <img src={SelfLearnerImg} alt="Self Learner Svg" />
+                    <h3>Self Learned</h3>
+                    <p>
+                      Started with developing android apps and moved into web
+                      development and truely fell in love.<br></br> Learned it
+                      all by myself with a lot of passion and hard work.
+                    </p>
+                  </div>
+                </div>
+                <div className="item">
+                  <div className="itemInner">
+                    <img src={TeamworkImg} alt="Teamworking Svg" />
+                    <h3>Teamwork is the key</h3>
+                    <p>
+                      I have always loved to work as a team to brainstorm a
+                      creation or fix bugs. Seeing the project from a different
+                      set of eyes is a gamechanger.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="projects"></div>
+          <div className="projects">
+            <div className="projectsGrid">
+              <div className="projectsHeader">
+                <h1>Projects</h1>
+              </div>
+              <div className="bouquetGrid">
+                <div className="bouquetItem projectItem">
+                  <img src={BouquetBG} alt="Bouquet Background" />
+                </div>
+                <div className="bouquetItem projectItem">
+                  <img src={BouquetLogo} alt="Bouquet Logo" />
+                </div>
+                <div className="bouquetItem projectItem">
+                  <h1>Bouquetflowers.co.il</h1>
+                </div>
+              </div>
+              <div className="yarinGrid">
+                <div className="yarinItem projectItem">
+                  <img src={YarinBG} alt="Bouquet Background" />
+                </div>
+                <div className="yarinItem projectItem">
+                  <img src={YarinLogo} alt="Bouquet Logo" />
+                </div>
+                <div className="yarinItem projectItem">
+                  <h1>Yarindrory.co.il</h1>
+                </div>
+              </div>
+              <div className="nitaiGrid">
+                <div className="nitaiItem projectItem">
+                  <img src={NitaiBG} alt="Bouquet Background" />
+                </div>
+                <div className="nitaiItem projectItem">
+                  <img src={NitaiLogo} alt="Bouquet Logo" />
+                </div>
+                <div className="nitaiItem projectItem">
+                  <h1>Nitaidaniel.co.il</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="contact"></div>
         </div>
       </div>
     </div>
