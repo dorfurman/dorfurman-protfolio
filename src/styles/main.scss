@@ -190,9 +190,11 @@ nav {
       &:nth-child(4) {
         grid-area: 4 / 1 / 5 / 2;
       }
+
       &:nth-child(5) {
         grid-area: 5 / 1 / 6 / 2;
       }
+
       &:nth-child(6) {
         grid-area: 6 / 1 / 7 / 2;
       }
@@ -363,9 +365,6 @@ nav {
 
             & #profileImgDiv {
               position: relative;
-              display: flex;
-              align-items: center;
-              justify-content: center;
 
               & .card {
                 position: relative;
@@ -409,6 +408,7 @@ nav {
           & #linesDiv {
             transform: rotate(15deg) scale(1.1) translateY(50%);
             top: 40%;
+
             & #waveShape {
               position: relative;
               filter: drop-shadow(0 0px 20px $cyanColor);
@@ -461,15 +461,14 @@ nav {
                 &:not(:nth-child(3)):not(:nth-child(4)) {
                   & .skillHeader {
                     transition: color 0.3s ease;
-                    background: linear-gradient(
-                      to right,
-                      $mainColor,
-                      $BlueColor
-                    );
+                    background: linear-gradient(to right,
+                        $mainColor,
+                        $BlueColor);
                     -webkit-background-clip: text;
                     -webkit-text-fill-color: transparent;
                   }
                 }
+
                 &:nth-child(3),
                 &:nth-child(4) {
                   box-shadow: 0px 0px 5px 0 $mainColor, -6px 10px 0 0 #6830c3b0,
@@ -614,6 +613,7 @@ nav {
             }
           }
         }
+
         .qualitiesContainer {
           position: relative;
           padding-top: 200px;
@@ -627,6 +627,7 @@ nav {
             padding-bottom: 50px;
             font-size: 3vw;
           }
+
           & #qualitiesGrid {
             display: flex;
             flex-direction: row;
@@ -750,6 +751,7 @@ nav {
                   background-color: rgba(0, 0, 0, 0.15);
                 }
               }
+
               &:nth-child(2) {
                 grid-area: 1 / 2 / 3 / 3;
 
@@ -758,6 +760,7 @@ nav {
                   height: auto;
                 }
               }
+
               &:nth-child(3) {
                 grid-area: 3 / 2 / 5 / 3;
                 background: linear-gradient(60deg, $mainColor, $BlueColor);
@@ -848,6 +851,7 @@ nav {
                   background-color: rgba(0, 0, 0, 0.15);
                 }
               }
+
               &:nth-child(2) {
                 grid-area: 1 / 2 / 3 / 3;
 
@@ -856,6 +860,7 @@ nav {
                   height: auto;
                 }
               }
+
               &:nth-child(3) {
                 grid-area: 3 / 2 / 5 / 3;
                 background: linear-gradient(60deg, $mainColor, $BlueColor);
@@ -868,6 +873,81 @@ nav {
       & .contact {
         position: relative;
         height: 50vh;
+      }
+    }
+  }
+}
+
+
+@media (max-width:600px) {
+  nav {
+    & h1 {
+      font-size: 1.5em;
+    }
+  }
+
+  .container {
+    & .containerInner {
+      & .main {
+        & .header {
+
+          & #linesDiv {
+            top: 30%;
+            width: 110vw;
+          }
+
+          & .grid-col-2 {
+            display: block;
+
+
+            & .grid-item-1 {
+              position: absolute;
+              top: 65%;
+              left: 50%;
+              transform: translate(-50%, -35%);
+
+              & h1 {
+                font-size: 12vw;
+                white-space: nowrap;
+              }
+
+              & h3 {
+                font-size: 4vw;
+              }
+
+              & #bottomTxt {
+                max-width: 80%;
+              }
+
+              & #hireMe {
+                bottom: -25%;
+              }
+            }
+
+            & .grid-item-2 {
+              position: absolute;
+              top: 35%;
+              left: 50%;
+              transform: translate(-50%, -65%);
+
+              & #profileImgDiv {
+
+                & .card {
+                  height: 50vw;
+                  width: 50vw;
+
+                  & #profile-image {
+                    filter: drop-shadow(3px 3px 3px #000);
+
+                    &:hover {
+                      filter: drop-shadow(3px 3px 3px $mainColor);
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -955,6 +1035,7 @@ nav {
     width: 100%;
     opacity: 0;
   }
+
   to {
     width: 0%;
   }
@@ -964,6 +1045,7 @@ nav {
   from {
     right: -100%;
   }
+
   to {
     right: -25px;
   }
@@ -973,6 +1055,7 @@ nav {
   from {
     right: -65px;
   }
+
   to {
     right: -100%;
   }
@@ -983,6 +1066,7 @@ nav {
     transform: rotateY(0deg) translateZ(0);
     //filter: blur(0px);
   }
+
   to {
     transform: rotateY(-10deg) translateZ(0);
     //filter: blur(10px);
@@ -994,6 +1078,7 @@ nav {
     transform: rotateY(-10deg) translateZ(0);
     //filter: blur(10px);
   }
+
   to {
     transform: rotateY(0deg) translateZ(0);
     //filter: blur(0px);
@@ -1004,6 +1089,7 @@ nav {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -1014,6 +1100,7 @@ nav {
     transform: rotateX(5deg) scale(1) translateY(100px);
     opacity: 0.25;
   }
+
   to {
     transform: rotateX(25deg) scale(0.9) translateY(0);
     opacity: 1;
