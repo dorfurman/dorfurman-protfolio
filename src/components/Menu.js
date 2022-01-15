@@ -23,34 +23,11 @@ const Menu = () => {
         main.classList.add("rotateY");
         navUl.classList.add("navActive");
         setTimeout(() => {
-          main.style.filter = "blur(10px)";
+          main.style.filter = "blur(5px)";
         }, 300);
         break;
     }
   };
-
-  // window.onload = () => {
-  //   const navUl = document.querySelector("#navUl");
-  //   const navLi = document.querySelectorAll(".navLi");
-  //   const semiCircle = document.querySelectorAll(".semiCircle");
-  //   let v;
-  //   for (let i = 0; i < navLi.length; i++) {
-  //     navLi[i].addEventListener("mouseover", () => {
-  //       // navLi[i].style.boxShadow = "0 0 15px 0 #6930c3";
-  //       // navLi[i].clipPath = "inset(0px -15px 0px 0px)";
-  //       if (v !== undefined) {
-  //         semiCircle[v].classList.remove("menuBall");
-  //         semiCircle[v].classList.add("menuBallBW");
-  //       }
-  //       semiCircle[i].classList.remove("menuBallBW");
-  //       semiCircle[i].classList.add("menuBall");
-  //       v = i;
-  //     });
-  //     navUl.addEventListener("mouseout", () => {});
-  //     // semiCircle[i].classList.remove("menuBall");
-  //     // semiCircle[i].classList.add("menuBallBW");
-  //   }
-  // };
 
   return (
     <div>

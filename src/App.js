@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import "./styles/main.css";
 // Images
 import ProfilePicture from "./media/profileNew.png";
+import ProfileMobile from "./media/profileMobile.png";
 import SelfLearnerImg from "./media/qualities/selflearner.svg";
 import TeamworkImg from "./media/qualities/teamwork.svg";
 import PassionImg from "./media/qualities/passion.svg";
@@ -14,7 +15,7 @@ import NitaiBG from "./media/protfolio/Nitai-Daniel/NitaiBG.PNG";
 import NitaiLogo from "./media/protfolio/Nitai-Daniel/NitaiLogo.png";
 //
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAt } from "@fortawesome/free-solid-svg-icons";
+import { faAt, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import {
   faGithub,
   faLinkedinIn,
@@ -31,6 +32,8 @@ import {
 import Menu from "./components/Menu";
 
 function App() {
+  const [menuTxt, txtChange] = useState("Welcome");
+
   window.onload = () => {
     const skills = document.querySelectorAll(".skill");
     const skillsContainer = document.querySelector("#skillsContainer");
@@ -58,32 +61,114 @@ function App() {
       }
       setTimeout(skillAnimation, 1500);
     };
-    skillAnimation();
 
-    skillsContainer.onmousemove = function (e) {
-      let x = (e.pageX - this.offsetLeft) / 100;
-      let y = (e.pageY - this.offsetTop) / 100;
-      skillsContainer.style.transform = `translateZ(0) rotateY(20deg) translate(${x}%, ${y}%)`;
+    const skillAnimationMobile = () => {
+      let randomNum;
+      do {
+        randomNum = Math.floor(Math.random() * (5 - 0 + 1) + 0);
+      } while (lastNum === randomNum);
+      lastNum = randomNum;
+      skills[randomNum].style.boxShadow =
+        "0px 4px 15px 0 #6930c3, 0px 8px 0 0 rgba(40, 40, 40, 0.75), 0px 12px 0 0 rgba(45, 45, 45, 0.5)";
+      setTimeout(() => {
+        skills[randomNum].style.boxShadow = "0 0 0 transparent";
+      }, 1000);
+      setTimeout(skillAnimationMobile, 1000);
     };
+
+    if (window.innerWidth > 600) {
+      skillAnimation();
+      skillsContainer.onmousemove = function (e) {
+        let x = (e.pageX - this.offsetLeft) / 100;
+        let y = (e.pageY - this.offsetTop) / 100;
+        skillsContainer.style.transform = `rotateY(20deg) translate(${x}%, ${y}%) translateZ(1px)`;
+      };
+    } else {
+      skillAnimationMobile();
+    }
 
     const qualitiesGrid = document.querySelector("#qualitiesGrid");
     const qualitiesContainer = document.querySelector(".qualitiesContainer");
     const qualitiesItem = document.querySelectorAll(".item");
+    const projectsGrid = document.querySelector(".projectsGrid");
+    const projects = document.querySelector(".projects");
+    const skill = document.querySelectorAll(".skill");
+
+    const projectOptions = {
+      root: null,
+      rootMargin: "10%",
+      treshold: 1,
+    };
+
+    for (let i = 0; i < skill.length; i++) {
+      const skillObserver = new IntersectionObserver((enteries) => {
+        if (enteries[0].intersectionRatio <= 0) {
+          if (i % 2 !== 0) {
+            return (
+              (skill[i].style.opacity = "0"),
+              (skill[i].style.transform = "translateX(-50px)")
+            );
+          } else {
+            return (
+              (skill[i].style.opacity = "0"),
+              (skill[i].style.transform = "translateX(50px)")
+            );
+          }
+        }
+
+        setTimeout(() => {
+          skill[i].style.opacity = "1";
+          skill[i].style.transform = "translateX(0)";
+        }, 150);
+      });
+      skillObserver.observe(skill[i]);
+    }
 
     const qualitiesObserver = new IntersectionObserver((entries) => {
       if (entries[0].intersectionRatio <= 0) {
-        return (qualitiesContainer.style.transform = "translateY(200px)");
+        return (
+          (qualitiesContainer.style.opacity = "0"),
+          (qualitiesContainer.style.transform = "translateY(200px)")
+        );
       }
 
       setTimeout(() => {
-        qualitiesItem.forEach((item) => {
-          qualitiesContainer.style.transform = "translateY(0)";
-        });
-      });
-    });
+        qualitiesContainer.style.opacity = "1";
+        qualitiesContainer.style.transform = "translateY(0)";
+      }, 150);
+    }, projectOptions);
+    qualitiesObserver.observe(qualitiesGrid);
 
-    const projectsGrid = document.querySelector(".projectsGrid");
-    const projects = document.querySelector(".projects");
+    if (window.innerWidth < 600) {
+      for (let i = 0; i < qualitiesItem.length; i++) {
+        const qualitiesItemObserver = new IntersectionObserver((enteries) => {
+          if (enteries[0].intersectionRatio <= 0) {
+            if (i === 1) {
+              return (
+                (qualitiesItem[i].style.opacity = "0"),
+                (qualitiesItem[i].style.transform = "translateX(100px)")
+              );
+            } else if (i == 2) {
+              return (
+                (qualitiesItem[i].style.opacity = "0"),
+                (qualitiesItem[i].style.transform = "translateX(-100px)")
+              );
+            } else if (i == 3) {
+              return (
+                (qualitiesItem[i].style.opacity = "0"),
+                (qualitiesItem[i].style.transform = "translateY(100px)")
+              );
+            }
+          }
+
+          setTimeout(() => {
+            qualitiesItem[i].style.opacity = "1";
+            qualitiesItem[i].style.transform = "translateX(0)";
+          }, 50);
+        });
+        qualitiesItemObserver.observe(qualitiesItem[i]);
+      }
+    }
 
     const projectsObserver = new IntersectionObserver((entries) => {
       if (entries[0].intersectionRatio <= 0) {
@@ -95,15 +180,51 @@ function App() {
       setTimeout(() => {
         projectsGrid.classList.add("projectsAnim");
         projects.style.transform = "translateY(0)";
-      }, 250);
-    });
+      }, 150);
+    }, projectOptions);
     projectsObserver.observe(projectsGrid);
-    qualitiesObserver.observe(qualitiesGrid);
+
+    const menuScroller = document.querySelector("#menuScroller");
+    const scrollerClick = document.querySelector("#scrollerClick");
+    const menuHeader = document.querySelector("#menuHeader");
+    const containerInner = document.querySelector(".containerInner");
+    const body = document.body;
+    const limit = Math.max(
+      document.body.scrollHeight,
+      document.body.offsetHeight,
+      document.documentElement.clientHeight,
+      document.documentElement.scrollHeight,
+      document.documentElement.offsetHeight
+    );
+    window.addEventListener("scroll", () => {
+      menuHeader.style.transform = "rotateY(90deg)";
+      let scrollDistance = window.scrollY / (limit / 450);
+      if (scrollDistance > 350) scrollDistance = 350;
+      menuScroller.style.transform = `translateY(${scrollDistance}px) translate3d(0,0,0)`;
+    });
+    containerInner.onclick = () => {
+      menuHeader.style.transform = "rotateY(90deg)";
+    };
+    scrollerClick.addEventListener("click", () => {
+      menuHeader.style.transform = "rotateY(0deg)";
+    });
   };
 
   return (
     <div className="container">
       <Menu />
+      <div className="mobileMenu">
+        <div id="menuLine">
+          <div id="menuScroller">
+            <div id="scrollerClick">
+              <FontAwesomeIcon id="rightArrow" icon={faChevronRight} />
+            </div>
+            <div id="menuHeader">
+              <a id="menuTxt">{menuTxt}</a>
+            </div>
+          </div>
+        </div>
+      </div>
       <ul id="socialUl">
         <li>
           <FontAwesomeIcon icon={faLinkedinIn} />
@@ -137,10 +258,33 @@ function App() {
               </svg>
             </div>
             <div className="grid-col-2">
+              <div id="welcomeDiv">
+                {/* <h2>WELCOME</h2> */}
+                <svg viewBox="0 0 960 300">
+                  <symbol id="s-text">
+                    <text textAnchor="middle" x="50%" y="80%">
+                      WELCOME
+                    </text>
+                  </symbol>
+
+                  <g className="g-ants">
+                    <use xlinkHref="#s-text" className="text-copy"></use>
+                    <use xlinkHref="#s-text" className="text-copy"></use>
+                    <use xlinkHref="#s-text" className="text-copy"></use>
+                    <use xlinkHref="#s-text" className="text-copy"></use>
+                    <use xlinkHref="#s-text" className="text-copy"></use>
+                    <use xlinkHref="#s-text" className="text-copy"></use>
+                    <use xlinkHref="#s-text" className="text-copy"></use>
+                  </g>
+                </svg>
+              </div>
               <div className="grid-item-1">
-                <h3>Hi, my name is</h3>
+                <h3>My name is</h3>
                 <h1>DOR FURMAN</h1>
-                <h3 id="bottomTxt">Frontend Web Developer & Freelancer</h3>
+                <h3 id="bottomTxt">
+                  Frontend Web Developer
+                  <br />& Freelancer
+                </h3>
                 <button id="hireMe">
                   <a>HIRE ME</a>
                 </button>
@@ -155,6 +299,9 @@ function App() {
                     />
                   </div>
                 </div>
+                <button id="hireMeMobile">
+                  <a>HIRE ME</a>
+                </button>
               </div>
             </div>
           </div>
@@ -174,6 +321,18 @@ function App() {
                     d="M0,160L24,138.7C48,117,96,75,144,69.3C192,64,240,96,288,96C336,96,384,64,432,53.3C480,43,528,53,576,90.7C624,128,672,192,720,234.7C768,277,816,299,864,277.3C912,256,960,192,1008,144C1056,96,1104,64,1152,85.3C1200,107,1248,181,1296,181.3C1344,181,1392,107,1416,69.3L1440,32L1440,0L1416,0C1392,0,1344,0,1296,0C1248,0,1200,0,1152,0C1104,0,1056,0,1008,0C960,0,912,0,864,0C816,0,768,0,720,0C672,0,624,0,576,0C528,0,480,0,432,0C384,0,336,0,288,0C240,0,192,0,144,0C96,0,48,0,24,0L0,0Z"
                   ></path>
                 </svg>
+              </div>
+              <div id="skillPara">
+                <h1>Me</h1>
+                <p>
+                  Passionate <span>self learned</span> front end web developer.
+                </p>
+                <p>
+                  Love to create unique open minded <span>creations</span>.
+                </p>
+                <p>
+                  Excited to learn new <span>technologies</span>.
+                </p>
               </div>
               <div id="skillsContainer">
                 <div id="skillsGrid">
@@ -209,25 +368,11 @@ function App() {
                   </div>
                 </div>
               </div>
-              <div id="skillHeader">
-                <h1>Me</h1>
-                <p>
-                  Passionate <span>self learned</span> front end web developer.
-                </p>
-                <p>
-                  Love to create unique open minded <span>creations</span>.
-                </p>
-                <p>
-                  Excited to learn new <span>technologies</span>.
-                </p>
-              </div>
             </div>
             <div className="qualitiesContainer">
               <h1>Qualities</h1>
               <div id="qualitiesGrid">
                 <div className="item">
-                  {" "}
-                  {/* New Technologies */}
                   <div className="itemInner">
                     <img src={NewTechnologyImg} alt="New Technologies Svg" />
                     <h3>Always learning new technologies</h3>
@@ -312,7 +457,15 @@ function App() {
               </div>
             </div>
           </div>
-          <div className="contact"></div>
+          <div className="contact">
+            <div className="test-grid">
+              <div className="test-item"></div>
+              <div className="test-item"></div>
+              <div className="test-item"></div>
+              <div className="test-item"></div>
+              <div className="test-item"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

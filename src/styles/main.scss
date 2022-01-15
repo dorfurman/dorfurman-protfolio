@@ -224,7 +224,7 @@ nav {
     border-bottom-left-radius: 10px;
     box-shadow: 0px 0px 15px 0px rgb(165, 165, 165);
     transition: background 0.3s ease;
-    z-index: 999;
+    z-index: 98;
 
     &:hover {
       background-color: #fff;
@@ -296,7 +296,8 @@ nav {
         height: 100vh;
 
         & #linesDiv {
-          transform: rotate(-30deg) scale(1.25);
+          transform: rotate(-30deg) scale(1.25) translate3d(0, 0, -1px);
+          z-index: -3;
         }
 
         & .grid-col-2 {
@@ -306,6 +307,10 @@ nav {
           height: 100%;
           width: 100%;
           place-items: center;
+
+          & #welcomeDiv {
+            display: none;
+          }
 
           & .grid-item-1 {
             grid-area: 1 / 1 / 2 / 2;
@@ -381,11 +386,17 @@ nav {
                   filter: drop-shadow(5px 5px 5px #000);
                   transition: all 0.3s ease;
 
-                  &:hover {
-                    filter: drop-shadow(5px 5px 5px $mainColor);
+                  @media (min-width: 600px) {
+                    &:hover {
+                      filter: drop-shadow(5px 5px 5px $mainColor);
+                    }
                   }
                 }
               }
+            }
+
+            & #hireMeMobile {
+              display: none;
             }
           }
         }
@@ -420,10 +431,11 @@ nav {
             grid-area: 1 / 1 / 2 / 2;
             background-color: transparent;
             border-radius: 10px;
-            transform: rotateY(20deg) translate(10%, 10%) translateZ(0);
+            transform: rotateY(20deg) translate(10%, 10%) translateZ(1px);
             transform-origin: left;
             transition: all 0.05s ease;
             backface-visibility: hidden;
+            z-index: 3;
 
             & #skillsGrid {
               display: grid;
@@ -461,9 +473,11 @@ nav {
                 &:not(:nth-child(3)):not(:nth-child(4)) {
                   & .skillHeader {
                     transition: color 0.3s ease;
-                    background: linear-gradient(to right,
-                        $mainColor,
-                        $BlueColor);
+                    background: linear-gradient(
+                      to right,
+                      $mainColor,
+                      $BlueColor
+                    );
                     -webkit-background-clip: text;
                     -webkit-text-fill-color: transparent;
                   }
@@ -481,13 +495,13 @@ nav {
                 }
 
                 & .skillIcon {
-                  font-size: 7.5vw;
+                  font-size: clamp(50px, 7.5vw, 400px);
                   color: rgb(219, 219, 219);
                   transition: color 0.3s ease;
                 }
 
                 & .skillHeader {
-                  font-size: 1.5vw;
+                  font-size: clamp(20px, 1.5vw, 100px);
                   font-family: leagueFont;
                   cursor: pointer;
                 }
@@ -567,12 +581,13 @@ nav {
             }
           }
 
-          & #skillHeader {
+          & #skillPara {
             grid-area: 1 / 2 / 2 / 3;
             padding: 10px;
             transform: translate(10px, 10px);
             transition: all 0.3s ease;
             padding: 10px;
+            width: max-content;
 
             &::before {
               content: "";
@@ -593,7 +608,7 @@ nav {
             }
 
             & h1 {
-              font-size: 2vw;
+              font-size: clamp(25px, 2vw, 30px);
               font-family: sinkinBlack;
               width: max-content;
               background: #fff;
@@ -602,7 +617,7 @@ nav {
             }
 
             & p {
-              font-size: 1vw;
+              font-size: clamp(12px, 1vw, 30px);
               color: $paraColor;
               transition: color 0.3s ease;
             }
@@ -625,7 +640,9 @@ nav {
             width: 100%;
             text-align: center;
             padding-bottom: 50px;
-            font-size: 3vw;
+            font-size: clamp(30px, 3vw, 100px);
+            text-shadow: 4px 4px 0 $BlueColor, 8px 8px 0 $mainColor,
+              8px 8px 4px $mainColor;
           }
 
           & #qualitiesGrid {
@@ -635,7 +652,6 @@ nav {
             justify-content: center;
             align-items: center;
             align-content: stretch;
-            perspective: 1500px;
 
             & .item {
               background-color: rgba(0, 0, 0, 0.5);
@@ -872,43 +888,197 @@ nav {
 
       & .contact {
         position: relative;
-        height: 50vh;
+        height: 100vh;
+
+        & .test-grid {
+          display: grid;
+          grid-template-columns: repeat(5, 1fr);
+          grid-template-rows: repeat(5, 1fr);
+          grid-column-gap: 20px;
+          grid-row-gap: 20px;
+        }
       }
     }
   }
 }
 
+.mobileMenu {
+  position: fixed;
+  height: 100vh;
+  width: max-content;
+  z-index: 99;
+  & #menuLine {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2px;
+    height: 400px;
+    background-color: rgba(255, 255, 255, 0.75);
+    border-radius: 10px;
 
-@media (max-width:600px) {
+    & #menuScroller {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 2px;
+      height: 50px;
+      background-color: $mainColor;
+      box-shadow: 0 0 10px 0 $mainColor;
+      border-radius: 10px;
+      transition: transform 0.05s ease;
+
+      & #scrollerClick {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 20px;
+        height: 50px;
+
+        & #rightArrow {
+          position: absolute;
+          color: #fff;
+          top: 50%;
+          left: 10px;
+          transform: translateY(-50%);
+          transition: all 0.7s ease;
+          z-index: 101;
+        }
+      }
+
+      & #menuHeader {
+        position: relative;
+        width: 100px;
+        height: 50px;
+        background-color: $mainColor;
+        transform: rotateY(90deg);
+        transform-origin: left;
+        transition: transform 0.5s ease;
+        z-index: 100;
+        backface-visibility: visible;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+        opacity: 0.85;
+
+        & a {
+          position: absolute;
+          top: 50%;
+          right: 50%;
+          transform: translate(50%, -50%);
+          font-family: leagueFont;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
   nav {
     & h1 {
-      font-size: 1.5em;
+      // font-size: 1.5em;
+      display: none;
     }
   }
 
   .container {
+    & #socialUl {
+      opacity: 0.8;
+
+      & li {
+        font-size: 5vw;
+        padding: 2.5px;
+      }
+    }
+
     & .containerInner {
       & .main {
         & .header {
+          z-index: 3;
 
           & #linesDiv {
-            top: 30%;
-            width: 110vw;
+            top: 20%;
+            width: 140vw;
           }
 
           & .grid-col-2 {
             display: block;
 
+            & #welcomeDiv {
+              display: block;
+              position: absolute;
+              top: -100px;
+              right: 50%;
+              transform: translateX(50%);
+
+              svg {
+                display: block;
+                font: 10.5em "Montserrat";
+                width: 300px;
+                height: 300px;
+                margin: 0 auto;
+              }
+
+              .text-copy {
+                fill: none;
+                stroke: $bgColor;
+                stroke-dasharray: 6% 29%;
+                stroke-width: 5px;
+                stroke-dashoffset: 0%;
+                animation: stroke-offset 5.5s infinite linear;
+              }
+
+              .text-copy:nth-child(1) {
+                stroke: $mainColor;
+                animation-delay: -1;
+              }
+
+              .text-copy:nth-child(2) {
+                stroke: $BlueColor;
+                animation-delay: -2s;
+              }
+
+              .text-copy:nth-child(3) {
+                stroke: $cyanColor;
+                animation-delay: -3s;
+              }
+
+              .text-copy:nth-child(4) {
+                stroke: $mainColor;
+                animation-delay: -4s;
+              }
+
+              .text-copy:nth-child(5) {
+                stroke: $BlueColor;
+                animation-delay: -5s;
+              }
+              .text-copy:nth-child(6) {
+                stroke: $cyanColor;
+                animation-delay: -6s;
+              }
+              .text-copy:nth-child(7) {
+                stroke: $mainColor;
+                animation-delay: -7s;
+              }
+
+              @keyframes stroke-offset {
+                100% {
+                  stroke-dashoffset: 35%;
+                }
+              }
+            }
 
             & .grid-item-1 {
               position: absolute;
-              top: 65%;
+              top: 25%;
               left: 50%;
-              transform: translate(-50%, -35%);
+              transform: translate(-50%, -50%);
+              z-index: 4;
+              text-align: center;
 
               & h1 {
                 font-size: 12vw;
                 white-space: nowrap;
+                padding: 5px 0;
               }
 
               & h3 {
@@ -916,34 +1086,172 @@ nav {
               }
 
               & #bottomTxt {
-                max-width: 80%;
+                max-width: 100%;
+                padding: 5px 0;
               }
 
               & #hireMe {
-                bottom: -25%;
+                display: none;
               }
             }
 
             & .grid-item-2 {
               position: absolute;
-              top: 35%;
+              top: 60%;
               left: 50%;
-              transform: translate(-50%, -65%);
+              transform: translate(-50%, -50%);
 
               & #profileImgDiv {
-
                 & .card {
-                  height: 50vw;
-                  width: 50vw;
+                  height: 80vw;
+                  width: 80vw;
 
                   & #profile-image {
-                    filter: drop-shadow(3px 3px 3px #000);
-
-                    &:hover {
-                      filter: drop-shadow(3px 3px 3px $mainColor);
-                    }
+                    width: 100%;
+                    height: auto;
                   }
                 }
+              }
+
+              & #hireMeMobile {
+                display: block;
+                position: relative;
+                padding-top: 10px;
+                appearance: none;
+                border: none;
+                background-color: transparent;
+                cursor: pointer;
+                animation: tilt-anim 3s ease infinite;
+                transform-origin: 50% 50%;
+                color: $bgColor;
+                width: 100%;
+                text-align: center;
+                z-index: 2;
+
+                &:active {
+                  border: none;
+                }
+
+                & a {
+                  font-size: 10vw;
+                  color: $BlueColor;
+                  text-shadow: 0px 0px 10px $BlueColor;
+                  font-family: clipFont;
+                  transition: all 0.3s ease;
+                  cursor: pointer;
+
+                  &:hover {
+                    color: $mainColor;
+                    text-shadow: 0px 0px 10px $mainColor;
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        & .about {
+          top: -50px;
+
+          & #aboutTopGrid {
+            display: block;
+
+            & #linesDiv {
+              transform: rotate(25deg) scale(1.4) translateZ(-1px);
+              top: 60%;
+              z-index: -3;
+
+              & #waveShape {
+                z-index: -100 !important;
+              }
+            }
+
+            & #skillPara {
+              width: 100%;
+              text-align: left;
+              padding: 5px 10px;
+
+              &::before {
+                width: 85%;
+                left: 10px;
+              }
+
+              & h1 {
+                width: 100%;
+                padding: 0 10px 5px 0;
+                text-align: left;
+              }
+            }
+
+            & #skillsContainer {
+              transform-origin: center;
+              transform: rotateY(0) translateZ(1px);
+              padding: 75px 20px 0 20px;
+
+              & #skillsGrid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: repeat(3, 1fr);
+                grid-column-gap: 15px;
+                grid-row-gap: 15px;
+
+                & .skill {
+                  box-shadow: 0 0 0 transparent;
+                  padding: 20px;
+
+                  &:hover {
+                    box-shadow: 0px 4px 15px 0 $mainColor,
+                      0px 8px 0 0 rgba(40, 40, 40, 0.75),
+                      0px 12px 0 0 rgba(45, 45, 45, 0.5) !important;
+                  }
+
+                  &:nth-child(3),
+                  &:nth-child(4) {
+                    box-shadow: none;
+                    &:hover {
+                      box-shadow: 0px 4px 15px 0 $mainColor,
+                        0px 8px 0 0 rgba(40, 40, 40, 0.75),
+                        0px 12px 0 0 rgba(45, 45, 45, 0.5) !important;
+                    }
+                  }
+                  &:nth-child(1) {
+                    grid-area: 1 / 1 / 2 / 2;
+                  }
+                  &:nth-child(2) {
+                    grid-area: 1 / 2 / 2 / 3;
+                  }
+                  &:nth-child(3) {
+                    grid-area: 2 / 1 / 3 / 2;
+                  }
+                  &:nth-child(4) {
+                    grid-area: 2 / 2 / 3 / 3;
+                  }
+                  &:nth-child(5) {
+                    grid-area: 3 / 1 / 4 / 2;
+                  }
+                  &:nth-child(6) {
+                    grid-area: 3 / 2 / 4 / 3;
+                  }
+                }
+              }
+            }
+          }
+
+          & .qualitiesContainer {
+            padding-top: 100px;
+
+            & h1 {
+              padding-bottom: 25px;
+            }
+
+            & #qualitiesGrid {
+              flex-direction: column;
+              flex-wrap: nowrap;
+              justify-content: flex-start;
+              align-items: center;
+              align-content: center;
+
+              & .item {
+                margin: 20px;
               }
             }
           }
@@ -954,15 +1262,6 @@ nav {
 }
 
 // Animations
-.menuBall {
-  animation: menuBall 0.3s ease;
-  animation-fill-mode: forwards;
-}
-
-.menuBallBW {
-  animation: menuBallBW 0.3s ease;
-  animation-fill-mode: forwards;
-}
 
 .rotateY {
   animation: rotateY 0.5s ease;
@@ -1041,47 +1340,23 @@ nav {
   }
 }
 
-@keyframes menuBall {
-  from {
-    right: -100%;
-  }
-
-  to {
-    right: -25px;
-  }
-}
-
-@keyframes menuBallBW {
-  from {
-    right: -65px;
-  }
-
-  to {
-    right: -100%;
-  }
-}
-
 @keyframes rotateY {
   from {
     transform: rotateY(0deg) translateZ(0);
-    //filter: blur(0px);
   }
 
   to {
     transform: rotateY(-10deg) translateZ(0);
-    //filter: blur(10px);
   }
 }
 
 @keyframes rotateYBW {
   from {
     transform: rotateY(-10deg) translateZ(0);
-    //filter: blur(10px);
   }
 
   to {
     transform: rotateY(0deg) translateZ(0);
-    //filter: blur(0px);
   }
 }
 
