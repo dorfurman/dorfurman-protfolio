@@ -208,6 +208,19 @@ function App() {
     scrollerClick.addEventListener("click", () => {
       menuHeader.style.transform = "rotateY(0deg)";
     });
+    const socialLi = document.querySelector('#socialUl').getElementsByTagName('li');
+    socialLi[0].onclick = () => {
+      window.open('https://www.linkedin.com/in/dor-furman-4827b01aa/', '_blank').focus();
+    }
+    socialLi[1].onclick = () => {
+      window.open('https://github.com/dorfurman', '_blank').focus();
+    }
+    socialLi[2].onclick = () => {
+      window.open('mailto:dorfurman23@gmail.com', '_blank').focus();
+    }
+    socialLi[3].onclick = () => {
+      window.open('https://api.whatsapp.com/send?phone=+972542444150', '_blank').focus();
+    }
   };
 
   return (

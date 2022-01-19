@@ -1100,6 +1100,7 @@ nav ul li:nth-child(6) {
 .container .containerInner .main .contact {
   position: relative;
   height: 100vh;
+  display: none;
 }
 
 .container .containerInner .main .contact .test-grid {
@@ -1210,6 +1211,9 @@ nav ul li:nth-child(6) {
   .container #socialUl li {
     font-size: 5vw;
     padding: 2.5px;
+  }
+  .container .containerInner .main .projects {
+    display: none;
   }
   .container .containerInner .main .header {
     z-index: 3;
